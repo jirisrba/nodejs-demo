@@ -6,12 +6,13 @@ import { connect } from "./db/db";
 // Import core components
 import { log } from "./core/helpers/Logger";
 
-import { AddressInfo } from "net";
 import "./config";
 
 connect();
 
 const app: Application = express();
+const port = Number(parseInt(process.env.PORT) || 3000);
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -50,9 +51,6 @@ app.get("/movies/:id", async (req, res) => {
   }
 });
 
-const PORT: number = parseInt(process.env.PORT) || 3000;
-
-const server = app.listen(Number(PORT), "0.0.0.0", () => {
-  const { port, address } = server.address() as AddressInfo;
-  log.info("Server listening on:", "http://" + address + ":" + port);
+app.listen(port, "0.0.0.0", () => {
+  log.info("Server listening on port:", port);
 });
