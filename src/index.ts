@@ -6,20 +6,18 @@ import { connect } from "./db/db";
 // Import core components
 import { log } from "./core/helpers/Logger";
 
-import "./config";
+import { PORT } from "./config/config";
 
 connect();
 
 const app: Application = express();
-const port = Number(parseInt(process.env.PORT) || 3000);
-
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 
 app.get(['/', '/health', '/status'], (req, res) => {
-  console.log('status: "UP"');
+  log.info('status: "UP"');
   return res.status(200).json({ status: "UP" });
   })
 
@@ -51,6 +49,6 @@ app.get("/movies/:id", async (req, res) => {
   }
 });
 
-app.listen(port, "0.0.0.0", () => {
-  log.info("Server listening on port:", port);
+app.listen(PORT, () => {
+  log.info("Server listening on port: ", PORT);
 });
