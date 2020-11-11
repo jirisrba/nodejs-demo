@@ -1,44 +1,24 @@
 version: '3.8'
 
 services:
-
   app:
-    image: devops:latest
+    image: azure-node-app:latest
     build: .
+    environment:
+      - PORT=3000
     ports:
       - "3000:3000"
     networks:
-      - net
-    healthcheck:
-      test: "node dist/utils/healthcheck.js"
-      #test: curl --fail -s http://localhost:3000/ || exit 1
-      interval: 1m
-      timeout: 10s
-      retries: 3
-    deploy:
-      resources:
-        reservations:
-          cpus: '0.05'
-          memory: 20M
-        limits:
-          cpus: '0.50'
-          memory: 100M
+      - database
 
   redis:
     image: redis:alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
     networks:
-      - net
-    deploy:
-      update_config:
-        order: start-first
-      resources:
-        reservations:
-          cpus: '0.05'
-          memory: 20M
-        limits:
-          cpus: '0.50'
-          memory: 100M
+      - database
 
 networks:
-  net:
-    driver: overlay
+  database:
+    driver: bridge

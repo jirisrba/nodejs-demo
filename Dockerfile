@@ -1,4 +1,4 @@
-FROM node:14 as build
+FROM node:15 as build
 # FROM node:14
 
 RUN mkdir /app
@@ -23,7 +23,4 @@ ENV NODE_ENV=production
 # expose port and define CMD start
 EXPOSE 3000
 
-HEALTHCHECK \
-  CMD node dist/utils/healthcheck.js
-
-CMD ["node", "dist/index.js"]
+CMD ["node", "dist/server.js"]
