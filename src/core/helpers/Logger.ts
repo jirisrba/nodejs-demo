@@ -1,8 +1,5 @@
-import winston from "winston";
+import { Logger } from "tslog";
 
-const logger = winston.createLogger({
-  format: winston.format.json(),
-  transports: [new winston.transports.Console()],
-});
+const log: Logger = new Logger({ type: "json" });
 
-export { logger as log }
+export { log };
